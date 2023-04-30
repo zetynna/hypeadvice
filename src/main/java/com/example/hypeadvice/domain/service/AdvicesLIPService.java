@@ -81,8 +81,8 @@ public class AdvicesLIPService {
             AdviceVO vo = null;
             try {
                 String body = response.getBody();
-                if (body.contains("No advice slips found matching that search term")) {
-                    throw new RuntimeException("Status Code" + status + ", message: No advice slips found matching that search term");
+                if (body.contains("Advice slip not found.")) {
+                    throw new RuntimeException("Status Code" + status + ", message: No advice slips found matching that search id");
                 }
                 vo = Utils.jsonToObject(AdviceVO.class, body);
             } catch (Exception e) {

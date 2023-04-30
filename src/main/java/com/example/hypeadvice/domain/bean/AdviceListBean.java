@@ -9,6 +9,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 import java.util.ArrayList;
@@ -40,11 +41,15 @@ public class AdviceListBean extends Bean {
 
     public void buscarPorId() {
         try {
-            this.adviceListVO = new AdviceListVO();
-            this.adviceVO = adviceService.buscarPorId(advice);
-            List<Slip> slips = new ArrayList<>();
-            slips.add(adviceVO.getSlip());
-            this.adviceListVO.setSlips(slips);
+            if(advice.getId() == null || advice.getId() == 0){
+                addFaceMessage(FacesMessage.SEVERITY_ERROR, "Id não pode ser nulo!", null);
+            } else {
+                this.adviceListVO = new AdviceListVO();
+                this.adviceVO = adviceService.buscarPorId(advice);
+                List<Slip> slips = new ArrayList<>();
+                slips.add(adviceVO.getSlip());
+                this.adviceListVO.setSlips(slips);
+            }
         } catch (Exception e) {
             addMessageError(e);
         }
